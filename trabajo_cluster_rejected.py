@@ -28,11 +28,10 @@ import sys
 from pyspark.sql import SparkSession
 
 # 1. Configuración de SparkSession conectada al Cluster de Workers
+# Permitimos que Spark adapte la memoria y núcleos dinámicamente según la máquina virtual
 spark = SparkSession.builder \
     .appName("Cluster_Workers_Rejected_Loans") \
     .config("spark.master", "spark://usuario-VirtualBox:7077") \
-    .config("spark.executor.memory", "2g") \
-    .config("spark.executor.cores", "2") \
     .getOrCreate()
 
 print("\n>>> Conexión exitosa al Master de Spark. Spark UI activa en http://localhost:4040\n")
