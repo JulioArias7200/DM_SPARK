@@ -1,1 +1,44 @@
+# Entornos virtuales de Python
 .venv/
+venv/
+ENV/
+env/
+
+# Archivos compilados y cache de Python
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+
+# Datasets pesados y comprimidos
+*.csv.gz
+*.gz
+*.zip
+*.tar.gz
+*.csv
+
+# Carpetas de datos locales específicas del proyecto
+accepted_2007_to_2018q4.csv/
+rejected_2007_to_2018q4.csv/
+accepted_2007_to_2018Q4.csv/
+rejected_2007_to_2018Q4.csv/
+
+# Resultados y salidas generadas por Spark
+result_accepted/
+result_rejected/
+result*/
+results/
+
+# Artefactos y metadatos de Spark / Hadoop / Derby
+spark-warehouse/
+metastore_db/
+derby.log
+.checkpoint/
+checkpoint/
+*.parquet
+
+# Archivos de configuración de IDEs y SO
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
