@@ -62,14 +62,14 @@ products.write.mode("overwrite").csv("result_rejected")
 # Registro de vista temporal en memoria llamada 'data'
 df.createOrReplaceTempView("data")
 
-# Consulta SQL retornando el DataFrame (como en la captura)
-sql_df = spark.sql("select * from data limit 3")
+# Consulta SQL seleccionando columnas representativas para una visualización limpia
+query = "select `Amount Requested`, `Application Date`, `Loan Title`, `Risk_Score`, `State`, `Employment Length` from data limit 3"
 
-# Segunda consulta (DataFrame generado)
-spark.sql("select * from data limit 3")
+# Generación del DataFrame SQL
+sql_df = spark.sql(query)
 
-# Muestra del resultado tabular con .show()
-spark.sql("select * from data limit 3").show()
+# Visualización tabular limpia
+sql_df.show()
 
 # Detener sesión si se corre como script
 # spark.stop()

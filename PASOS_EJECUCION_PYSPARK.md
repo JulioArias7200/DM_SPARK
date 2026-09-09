@@ -86,14 +86,11 @@ products.write.mode("overwrite").csv('result_accepted')
 # Registrar DataFrame como vista SQL temporal
 df.createOrReplaceTempView("data")
 
-# Ejecución de la consulta SQL retornando el DataFrame
-spark.sql("select * from data limit 3")
+# Consulta SQL seleccionando las columnas principales para visualización limpia
+sql_df = spark.sql("select id, loan_amnt, term, int_rate, grade, loan_status, purpose, addr_state from data limit 3")
 
-# Segunda llamada
-spark.sql("select * from data limit 3")
-
-# Visualizar los resultados tabulares en consola
-spark.sql("select * from data limit 3").show()
+# Visualizar los resultados en consola
+sql_df.show()
 ```
 
 ---
@@ -149,14 +146,11 @@ products.write.mode("overwrite").csv('result_rejected')
 # Registrar vista SQL temporal
 df.createOrReplaceTempView("data")
 
-# Consulta SQL retornando el DataFrame
-spark.sql("select * from data limit 3")
-
-# Segunda consulta
-spark.sql("select * from data limit 3")
+# Consulta SQL seleccionando columnas representativas
+sql_df = spark.sql("select `Amount Requested`, `Application Date`, `Loan Title`, `Risk_Score`, `State`, `Employment Length` from data limit 3")
 
 # Visualizar los primeros 3 registros tabulares
-spark.sql("select * from data limit 3").show()
+sql_df.show()
 ```
 
 ---
