@@ -5,19 +5,22 @@ PROCESAMIENTO DISTRIBUIDO CON WORKERS EN PYSPARK - DATASET: PRÉSTAMOS RECHAZADO
 
 PASOS PREVIOS EN CONSOLA LINUX:
 --------------------------------------------------------------------------------
-1. Iniciar Master de Spark:
-   cd ~/spark
-   ./sbin/start-master.sh
+1. Iniciar Master de Spark (desde cualquier carpeta):
+   $SPARK_HOME/sbin/start-master.sh
 
 2. Iniciar Worker(s) conectándolos al Master:
-   ./sbin/start-worker.sh spark://localhost:7077
-   (o con recursos específicos: ./sbin/start-worker.sh -c 2 -m 2G spark://localhost:7077)
+   $SPARK_HOME/sbin/start-worker.sh spark://usuario-VirtualBox:7077
+   (o con recursos: $SPARK_HOME/sbin/start-worker.sh -c 2 -m 2G spark://usuario-VirtualBox:7077)
 
 3. Verificar en el navegador:
    http://localhost:8080  -> Web UI del Master (verificar workers en estado ALIVE)
 
 4. Ejecución del script:
-   spark-submit --master spark://localhost:7077 trabajo_cluster_rejected.py
+   spark-submit --master spark://usuario-VirtualBox:7077 trabajo_cluster_rejected.py
+
+5. Detener el cluster al finalizar:
+   $SPARK_HOME/sbin/stop-worker.sh
+   $SPARK_HOME/sbin/stop-master.sh
 --------------------------------------------------------------------------------
 """
 
@@ -27,7 +30,7 @@ from pyspark.sql import SparkSession
 # 1. Configuración de SparkSession conectada al Cluster de Workers
 spark = SparkSession.builder \
     .appName("Cluster_Workers_Rejected_Loans") \
-    .config("spark.master", "spark://localhost:7077") \
+    .config("spark.master", "spark://usuario-VirtualBox:7077") \
     .config("spark.executor.memory", "2g") \
     .config("spark.executor.cores", "2") \
     .getOrCreate()

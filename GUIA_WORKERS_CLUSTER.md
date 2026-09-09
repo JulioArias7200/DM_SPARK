@@ -7,18 +7,18 @@ Esta guía detalla el paso a paso en consola para levantar un cluster de Spark c
 ## 1. Arquitectura del Cluster
 
 ```
-                        +----------------------------+
-                        |        Spark Master        |
-                        | (spark://localhost:7077)   |
-                        |      Web UI: Port 8080     |
-                        +--------------+-------------+
-                                       |
-                   +-------------------+-------------------+
-                   |                                       |
-         +---------v---------+                   +---------v---------+
-         |     Worker 1      |                   |     Worker 2      |
-         | (2 Cores, 2GB RAM)|                   | (2 Cores, 2GB RAM)|
-         +-------------------+                   +-------------------+
+                        +----------------------------------+
+                        |           Spark Master           |
+                        | (spark://usuario-VirtualBox:7077)|
+                        |        Web UI: Port 8080         |
+                        +-----------------+----------------+
+                                          |
+                   +----------------------+----------------------+
+                   |                                             |
+         +---------v---------+                         +---------v---------+
+         |     Worker 1      |                         |     Worker 2      |
+         | (2 Cores, 2GB RAM)|                         | (2 Cores, 2GB RAM)|
+         +-------------------+                         +-------------------+
 ```
 
 ---
@@ -26,34 +26,29 @@ Esta guía detalla el paso a paso en consola para levantar un cluster de Spark c
 ## 2. Paso a Paso en la Consola Linux
 
 ### Paso 1: Iniciar el Spark Master
-1. Abre tu terminal en Linux y navega a la carpeta de Spark:
-   ```bash
-   cd ~/spark
-   ```
-2. Arranca el servicio Master:
-   ```bash
-   ./sbin/start-master.sh
-   ```
-3. Verifica la interfaz web del Master abriendo en tu navegador:
-   ```text
-   http://localhost:8080
-   ```
-   *(Verás en la parte superior la URL del master, normalmente `spark://localhost:7077` o `spark://usuario-VirtualBox:7077`)*.
+Puedes ejecutarlo desde cualquier directorio usando `$SPARK_HOME`:
+```bash
+$SPARK_HOME/sbin/start-master.sh
+```
+
+Verifica la interfaz web del Master abriendo en el navegador de Ubuntu:
+```text
+http://localhost:8080
+```
+*(Verás en la parte superior la URL del master: `spark://usuario-VirtualBox:7077`)*.
 
 ---
 
 ### Paso 2: Iniciar los Workers y conectarlos al Master
 
-Puedes iniciar uno o varios workers con los recursos que desees asignarles:
-
-#### Iniciar Worker 1 (con 2 cores y 2 GB de memoria):
+#### Iniciar Worker estándar:
 ```bash
-./sbin/start-worker.sh -c 2 -m 2G spark://localhost:7077
+$SPARK_HOME/sbin/start-worker.sh spark://usuario-VirtualBox:7077
 ```
 
-#### *(Opcional)* Iniciar un Worker 2 adicional:
+#### *(Opcional)* Iniciar Worker con recursos específicos (ej. 2 cores y 2 GB de RAM):
 ```bash
-./sbin/start-worker.sh -c 2 -m 2G spark://localhost:7077
+$SPARK_HOME/sbin/start-worker.sh -c 2 -m 2G spark://usuario-VirtualBox:7077
 ```
 
 > **Verificación:** Si recargas `http://localhost:8080`, en la tabla **Workers** verás los workers registrados con estado **ALIVE**.
@@ -69,12 +64,12 @@ Puedes iniciar uno o varios workers con los recursos que desees asignarles:
 
 2. Ejecuta el procesamiento distribuido para **Préstamos Aceptados**:
    ```bash
-   spark-submit --master spark://localhost:7077 trabajo_cluster_accepted.py
+   spark-submit --master spark://usuario-VirtualBox:7077 trabajo_cluster_accepted.py
    ```
 
 3. Ejecuta el procesamiento distribuido para **Préstamos Rechazados**:
    ```bash
-   spark-submit --master spark://localhost:7077 trabajo_cluster_rejected.py
+   spark-submit --master spark://usuario-VirtualBox:7077 trabajo_cluster_rejected.py
    ```
 
 ---
@@ -93,17 +88,16 @@ Mientras se ejecutan los scripts, puedes monitorear el trabajo de los workers en
 
 ### Paso 5: Detener el Cluster al finalizar
 
-Una vez completadas las pruebas, detén los servicios en orden:
+Una vez completadas las pruebas, detén los servicios ejecutando:
 
 ```bash
-cd ~/spark
-./sbin/stop-worker.sh
-./sbin/stop-master.sh
+$SPARK_HOME/sbin/stop-worker.sh
+$SPARK_HOME/sbin/stop-master.sh
 ```
 
 ---
 
-## 3. Resumen de Archivos Generados
+## 3. Resumen de Archivos
 
 * [trabajo_cluster_accepted.py](file:///c:/Users/julio/Downloads/INF_2_2026/DM/spark/expo/DM_SPARK/trabajo_cluster_accepted.py): Script con carga balanceada, particionamiento y consultas distribuidas para préstamos aceptados.
 * [trabajo_cluster_rejected.py](file:///c:/Users/julio/Downloads/INF_2_2026/DM/spark/expo/DM_SPARK/trabajo_cluster_rejected.py): Script con procesamiento distribuido para préstamos rechazados.
