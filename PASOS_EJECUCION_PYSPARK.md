@@ -41,8 +41,8 @@ spark-submit --driver-memory 4g trabajo_rejected.py
 
 ### Paso 1: Carga, conteo y esquema (Captura 1)
 ```python
-# Carga del CSV infiriendo el esquema y leyendo encabezados
-df = spark.read.options(header='True', inferSchema='True').csv('accepted_2007_to_2018q4.csv/*.csv')
+# Carga directa del archivo comprimido (.csv.gz) infiriendo el esquema y leyendo encabezados
+df = spark.read.options(header='True', inferSchema='True').csv('accepted_2007_to_2018Q4.csv.gz')
 
 # Conteo total de filas
 df.count()
@@ -104,8 +104,8 @@ spark.sql("select * from data limit 3").show()
 
 ### Paso 1: Carga, conteo y esquema (Captura 1)
 ```python
-# Carga del CSV de préstamos rechazados
-df = spark.read.options(header='True', inferSchema='True').csv('rejected_2007_to_2018q4.csv/*.csv')
+# Carga del archivo comprimido (.csv.gz) de préstamos rechazados
+df = spark.read.options(header='True', inferSchema='True').csv('rejected_2007_to_2018Q4.csv.gz')
 
 # Conteo total de registros
 df.count()

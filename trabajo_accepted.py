@@ -11,8 +11,8 @@ spark = SparkSession.builder \
     .config("spark.driver.memory", "4g") \
     .getOrCreate()
 
-# Ruta al archivo (puede ser la carpeta con el csv o el archivo directo)
-path_accepted = "accepted_2007_to_2018q4.csv/*.csv"
+# Ruta al archivo original comprimido
+path_accepted = "accepted_2007_to_2018Q4.csv.gz"
 
 # --- Captura 1: Carga de datos, conteo y esquema ---
 df = spark.read.options(header='True', inferSchema='True').csv(path_accepted)
